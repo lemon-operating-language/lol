@@ -9,9 +9,6 @@ design notes:
 class Interpreter(object):
     def set_program(self, program):
         self.program = program
-    def prepare(self):
-        for i in self.program.statements.items:
-            if isinstance(i, Object
             
         
 

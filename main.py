@@ -29,27 +29,36 @@ class Codes(Node):
 	def top_level_objects(self):
 		"return objects defined in the first level only"
 		"items of type Object in self.items"
+		"Objects in self.items"
 		for i in self.items:
 			if isinstance(i, Object):
 				yield i
-				
-		
 
 
 	def run(self):
 		for i in self.items:
 			i.run()
 
-program = Program(
-	codes = Code(
-		items = [
-			Import(
 
-import os
+
+class Import(Node):
+	
+
+
+
+codes = Codes(
+	items = [
+		Import(List(items=['os', 'pygame']))
+		
 os.putenv("SDL_VIDEO_ALLOW_SCREENSAVER","1")
 
 
-
+			Function(
+				names = ["regenerate LICENSE file"],
+				codes = Codes([
+					Print(Text("boo!"))
+				]
+			)
 
 done = False
 
