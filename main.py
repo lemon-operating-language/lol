@@ -19,6 +19,7 @@ class Program(Node):
 		"do eeet"
 		self.statements.run()
 
+Rule("doing imports")
 
 
 
@@ -42,13 +43,26 @@ class Codes(Node):
 
 
 class Import(Node):
+	def __init__(self, items):
+		self.items = items
+
+	def run(self):
+		
+
+
+class PythonCall(Node):
+	def __init__(self, module, name, 
 	
 
 
+#Rule("importing X")
 
-codes = Codes(
-	items = [
-		Import(List(items=['os', 'pygame']))
+
+program = Program(
+	imports = List(Import("pygame")),
+	codes = Codes(
+		items = [
+			Import(List(items=['os', 'pygame']))
 		
 os.putenv("SDL_VIDEO_ALLOW_SCREENSAVER","1")
 
