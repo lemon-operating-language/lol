@@ -2,29 +2,65 @@
 #-*- coding: utf-8 -*-
 #lol bootstrap, © koo5
 
-
+"""
+current attack plan:
+ create the ast nodes and an interpreter in python
+ codify syntax and write an ide in lemon
+"""
 
 
 
 class Node(object):
 	pass
 
+class Rule(Node):
+	def __init__(self, codes, time, name):
+		self.codes = codes
+		self.time = time
+		self.name = name
+	def run(self):
+		self.codes.run()
 
-
+class Import(Node):
+	"an import of a python module"
+	def __init__(self, name):
+		self.name = name
+	def run(self):
+		self.module = __import__(self.name)
 
 class Program(Node):
 	"""the root of what the interpreter interprets"""
 
+	def __init__(self, imports, codes):
+		imps = ['__builtin__'] + imports
+		self.imports = [Import(i) for i in imps]
+		
+	def get_rules(self):
+		result = {'before':{}, 'after':{}, 'instead of':{}}
+		for i in self.codes.items:
+			if isinstance(i, Rule):
+				result[i.time][i.name] = i
+		return result
+
+	def call_rule(self, time, name):
+		if self.get_rules()[time].has_key(name):
+			self.get_rules()[time][name].run()
+
 	def run(self):
 		"do eeet"
+		self.call_rule(['before']['doing imports'])
+		for i in self.imports.items:
+			
 		self.statements.run()
+
+	
 
 Rule("doing imports")
 
 
 
   
-class Codes(Node):
+class Codes(List):
 
 
 	def top_level_objects(self):
@@ -43,6 +79,13 @@ class Codes(Node):
 
 
 class Import(Node):
+	def __init__(self, name):
+		self.name = name
+
+	def run(self):
+		self.loaded = __import__(name)
+
+class Imports(Node):
 	def __init__(self, items):
 		self.items = items
 
@@ -51,20 +94,39 @@ class Import(Node):
 
 
 class PythonCall(Node):
-	def __init__(self, module, name, 
-	
+	def __init__(self, module, name, arguments):
+	    self.module = module
+	    self.name = name
+	    self.arguments = arguments
+
+
+class PythonTuple(Node):
+    def __init__(self, items):
+        self.items = items
 
 
 #Rule("importing X")
 
 
+class Namespace(List):
+	pass
+
+
+syntax = {'program': {'codes':Codes, 'name':Text
+
 program = Program(
-	imports = List(Import("pygame")),
+	imports = List((List(items=['os', 'pygame']))
 	codes = Codes(
-		items = [
-			Import(List(items=['os', 'pygame']))
+		items = 
+		[
+			Namespace(items = List(
+			[
+				
 		
-os.putenv("SDL_VIDEO_ALLOW_SCREENSAVER","1")
+		
+			Import(
+		
+PythonCall(module = 'os', name = 'putenv', arguments = PythonTuple(["SDL_VIDEO_ALLOW_SCREENSAVER","1"]))
 
 
 			Function(
