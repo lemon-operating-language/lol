@@ -1,0 +1,48 @@
+#!/usr/bin/env python2
+#-*- coding: utf-8 -*-
+#lol bootstrap, © koo5
+
+import pyke
+from pyke import knowledge_engine
+e = knowledge_engine.engine()
+e.activate('a')
+
+
+"""
+knowledge base
+top down:
+	goal: the gui
+	editor window is a kind of pygame window
+	pygame window is a kind of thing..
+"""
+
+class Node(object):
+	pass
+
+class Assertion(Node):
+	def ass(self):
+		if self.object != None:
+			e.assert_('a', self.verb, (self.subject, self.object))
+		else:
+			e.assert_('a', self.verb, (self.subject, ))
+
+#Assertion(verb = 
+
+class ClassDefinition(Node):
+	def ass(self):
+		e.assert_('a', 'is class', ('',))
+
+class Program(Node):
+	def __init__(self, name, codes):
+		self.name = name
+		self.codes = codes
+	def to_text(self):
+		return self.name+"\n"+self.codes.to_text()
+	def run(self):
+		self.ass()
+		e.activate('a')
+	def ass(self):
+		e.assert_('a', 'is a kind of', (self, node))
+
+
+program = Program("x", 3)
