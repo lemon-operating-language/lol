@@ -2,28 +2,29 @@
 #-*- coding: utf-8 -*-
 #lol bootstrap, © koo5
 
-import importlib
 
+
+import importlib
 import pyke
 from pyke import knowledge_engine
 e = knowledge_engine.engine(__file__)
 
 
-"""
-knowledge base
-top down:
-	goal: the gui
-	editor window is a kind of pygame window
-	pygame window is a kind of thing..
-"""
 
 def ass(verb, *args):
-	e.assert_('a', verb, args)
+	e.assert_('lemon', verb, args)
 
 class Node(object):
-	def to_text(self):
-		return str(self)
+	def view(self):
+		query(
+	def as(self, verb, arg):
 	
+NodeView(Node):
+	def __init__(self, type, view):
+		self.type = type
+		self.view = view
+	def ass(self):
+		sa('is_view_of_node', self.type)
 class String():
 	pass
 
@@ -73,7 +74,7 @@ class Codes(List):
 
 
 class ClassDefinition(Node):
-	def __init__(self, name, superclass = None):
+	def __init__(self, name, superclass):
 		self.name = name
 		self.superclass = superclass
 	def ass(self):
@@ -82,7 +83,7 @@ class ClassDefinition(Node):
 		return self.name + " is a subclass of " + self.superclass.to_text()
 	
 
-class VariableDeclaration(Node):
+class ObjectDeclaration(Node):
 	def __init__(self, name, type):
 		self.name = name
 		self.type = type
@@ -164,7 +165,7 @@ class ActionDefinition(Node):
 	def __init__(self, signature):
 		self.signature = signature
 
-class Resolver(Node):
+class ItemResolver(Node):
 	def __init__(self, clues):
 		self.clues = clues
 
@@ -180,11 +181,12 @@ class Resolver(Node):
 		if len(items) == 1:
 			return items
 		else:
-			raise BaseException("resolution failed")
+			raise "resolution failed"
 
 
 program = Program(
-	name = "x", codes = Codes(
+	name = "x", codes = 
+Codes(
 [
 		Section("builtin", codes = Codes(
 		[
@@ -192,27 +194,47 @@ program = Program(
 			
 			
 		])),
-		ClassDefinition('pygame window'),
-		VariableDeclaration('window', 
-			Resolver({'type': ClassDefinition, 'name':'pygame window'})),
+		ClassDefinition('pygame window', Object),
+		ObjectDeclaration('window', 'pygame window'),
 		Import('os'),
 		Rule('before', 
-			Resolver({'list':Resolver({'type':Section, 'name':'builtin'}), 'index':0, 'type':ActionDefinition, 'key':"signature"}), Codes([])),
-		PythonCall(module = 'os', name = 'putenv', arguments = PythonTuple(["SDL_VIDEO_ALLOW_SCREENSAVER","1"])),
+			ItemResolver({'list':ItemResolver({'type':Section, 'name':'builtin'}), 'index':0, 'type':ActionDefinition, 'key':"signature"}), Codes([])),
+#		PythonCall(module = 'os', name = 'putenv', arguments = PythonTuple(["SDL_VIDEO_ALLOW_SCREENSAVER","1"])),
 		Import('pygame')
-]
-))
+]))
 
-#program = Program(name = "x", codes=Codes([]))
+
 
 #program.ass()
 
 
-print Resolver({'type':Section, 'name':'builtin'}).resolve()
+print ItemResolver({'type':Section, 'name':'builtin'}).resolve()
 
 
 e.get_kb('a').dump_universal_facts()
 e.get_kb('a').dump_specific_facts()
 
+
+
+
+
+
 print program.to_text()
+
+
+
+a view of node can be verbose
+
+dump(program):=
+	has_attribute %V, verbose 
+	is_view_of_node %V, program 
+
+++++++++++++++++++++++
+
+
+
+
+
+
+
 
